@@ -42,7 +42,7 @@ the main memory is the part of the computer reponsible for storing data and stat
 
 3. **Intent**: State is the configuration that tells the "operator" (CPU) what to do next.
 
-## IV - The Kernal
+## IV - The Kernel
 _so why are we talking about state and main memory ?_  
 Well, it is the Kernel's job to manage the main memory, how it's subdivised and keeping track of the state of each of these subdivisions.
 Generally the Kernel is in charge of managing those tasks in four areas : 
@@ -65,5 +65,26 @@ each processs occupies the CPU for a slice of time, this period is called the *t
 
 while this single core approach doesn't account for modern multi-core CPUs, where the Kernel doesn't need to stop the process but just delegate it into some other core, the reality is a little more nuanced and the Kernel still allocates some time windows for itself to maximize CPU usage, similarly to what we've shown here.
 ### 2 - Memory Management
+Managing memory on context switches is indeed a very complexe task. Nonetheless, it should generally simply just answer to the following conditions : 
+*   the kernel should have its own private area in memory that user processes can't access. 
+*   The system should be able to allocate more memory than is currently available in the main memory using auxiliary memroy from the disk.
+*   Processes can share memory.
+*   Some memory in user processes can be read-only.
+*   Each process needs its own section of memory.
+*   A process shall not access the private memory of another process.
+
+Fortunately, the kernel has help from the CPU, which features a dedicated *Memory Management Unit (MMU)*. This unit allows processes to interact with memory as if they have the entire address space to themselves by using virtual memory, which the MMU then maps to the appropriate physical addresses. The data structure used for this mapping is called a page table. However, the kernel must intervene during a context switch to update the MMU to point to the new process's page table.
 ### 3 - Devive drivers
+The kernel prevents user processes from accessing hardware directly, which protects system stability. Instead, device drivers provide a unified interface, abstracting the underlying hardware complexity and allowing the kernel to interact with various devices through a consistent set of commands.
 ### 4 - system calls and support
+One more kernel feature that is provided to user processes is system calls, which allows them to communitcate with the kernel, one classic example is for shell commands, everytime a command like ls executes a fork() system call is made which creates a copy of the current shell in which the exec(ls) system call that executes the new command in a different process.
+```mermaid
+graph TD 
+  old[shell] --> ls
+  ls --> fork["fork()"] 
+  fork --> shell  
+  fork --> copy[copy of shell]
+  copy --> exec["exec(ls)"]
+  exec --> new_ls[ls]
+```
+the kernel also supports user processes with features other than 
