@@ -74,7 +74,7 @@ Managing memory on context switches is indeed a very complexe task. Nonetheless,
 *   A process shall not access the private memory of another process.
 
 Fortunately, the kernel has help from the CPU, which features a dedicated *Memory Management Unit (MMU)*. This unit allows processes to interact with memory as if they have the entire address space to themselves by using virtual memory, which the MMU then maps to the appropriate physical addresses. The data structure used for this mapping is called a page table. However, the kernel must intervene during a context switch to update the MMU to point to the new process's page table.
-### 3 - Devive drivers
+### 3 - Device drivers
 The kernel prevents user processes from accessing hardware directly, which protects system stability. Instead, device drivers provide a unified interface, abstracting the underlying hardware complexity and allowing the kernel to interact with various devices through a consistent set of commands.
 ### 4 - system calls and support
 One more kernel feature that is provided to user processes is system calls, which allows them to communitcate with the kernel, one classic example is for shell commands, everytime a command like ls executes a fork() system call is made which creates a copy of the current shell in which the exec(ls) system call that executes the new command in a different process.
