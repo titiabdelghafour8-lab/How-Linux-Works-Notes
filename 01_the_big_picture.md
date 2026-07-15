@@ -88,3 +88,12 @@ graph TD
   exec --> new_ls[ls]
 ```
 the kernel also supports user processes with features other than 
+
+## V - user space
+user spaces is basically any memory occupied by a user process, since this memory is basically an image (state) of main memory at that time it is often referred to all the memory occupied by all user processes at the time, sometimes referred to as userland, it only allowed to limited access of the memory (what the corresponding user process is allowd to touch).
+
+
+## VI - users
+a user is an entity with attributes that help identify it, as well as other attributes e.g the allowed access level, ownership.... and is usually identified by a unique numerical value called ID, we could be talking about the human user or even programs that interacts with other components.
+The different components of the operating system are devided into layers based on the atomicity of their tasks, and their access privileges, at the lower level there is for instance the communication bus, network configuration, at a middle level processes that perform more complicated tasks such as Name caching servers... and the top there lies the application layer that uses many of the lowe parts, each part can only use parts of the lower layer.
+One of the linux's users built in users is the _root_ user, this user can access other user processes memory can perform at a higher privilege but remains operational merely inside the user space, but can command the kernel to perform relatively "dangerous" tasks.
